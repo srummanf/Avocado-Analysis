@@ -14,7 +14,9 @@ app = Dash(__name__)
 
 app.layout = html.Div(
     children=[
-        html.H1(children="Avocado Analytics"),
+        html.H1(children="Avocado Analytics",
+                className="header-title",
+                style={"fontSize": "48px", "color": "red"}),
         html.P(
             children=(
                 "Analyze the behavior of avocado prices and the number"
