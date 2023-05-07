@@ -117,7 +117,7 @@ app.layout = html.Div(
                 html.Div(
                     children=dcc.Graph(
                         id="price-chart",
-                        config={"displayModeBar": False},
+                        config={"displayModeBar": True},
                     ),
                     className="card",
                 ),
@@ -188,3 +188,5 @@ def update_charts(region, avocado_type, start_date, end_date):
 if __name__ == "__main__":
     app.run_server(debug=True)
     
+
+
