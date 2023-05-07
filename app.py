@@ -1,6 +1,7 @@
 import pandas as pd
 from dash import Dash, dcc, html
 
+# The preprocessed data is saved in a CSV and passed as a param in data which is attributw of Dash interface
 data = (
     pd.read_csv("avocado.csv")
     .query("type == 'conventional' and region == 'Albany'")
@@ -9,7 +10,10 @@ data = (
 )
 
 app = Dash(__name__)
+# This section of code is responsible for converting the attributes to HTML tags. Eg: html.H1 ==> <h1></h1> 
+# className is alias to class attribute. Same goes for style
 
+#dcc.Graph is responsible for making the graph. It takes a dictionary as an argument. The dictionary has two keys: data and layout. Data is in the form of CSV and layout we have used for the project is lines
 app.layout = html.Div(
     children=[
         html.H1(children="Avocado Analytics",
@@ -48,6 +52,7 @@ app.layout = html.Div(
     ]
 )
 
+# We can attach external CSS files to our Dash app. We can do this by passing a list of dictionaries to the external_stylesheets argument of the Dash constructor. Each dictionary in the list should have a href key with the URL of the CSS file and a rel key with the value stylesheet. We can use this to add Google Fonts to our app. We can also use this to add CSS files from our local machine. For example, if we have a file called style.css in the same directory as our app.py file, we can add it to our app like this:
 external_stylesheets = [
     {
         "href": (
