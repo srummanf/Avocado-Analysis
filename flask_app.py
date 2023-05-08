@@ -1,34 +1,20 @@
-
-
-# The preprocessed data is saved in a CSV and passed as a param in data which is attributw of Dash interface
-
-# This section of code is responsible for converting the attributes to HTML tags. Eg: html.H1 ==> <h1></h1> 
-# className is alias to class attribute. Same goes for style
-
-#dcc.Graph is responsible for making the graph. It takes a dictionary as an argument. The dictionary has two keys: data and layout. Data is in the form of CSV and layout we have used for the project is lines
-
-
-
-#Once you start the server, Dash will automatically serve the files located in assets/. 
-
-# We can attach external CSS files to our Dash app. We can do this by passing a list of dictionaries to the external_stylesheets argument of the Dash constructor. Each dictionary in the list should have a href key with the URL of the CSS file and a rel key with the value stylesheet. We can use this to add Google Fonts to our app. We can also use this to add CSS files from our local machine. For example, if we have a file called style.css in the same directory as our app.py file, we can add it to our app like this:
-
-
-# rel:"stylesheet" will look for all stylesheet/ CSS files in the assets folder. For JS file you can use external_scripts.
-# app.py
-# app.py
-
+# importing the libraries
+import dash
 import pandas as pd
 from dash import Dash, Input, Output, dcc, html
 
+# The preprocessed data is saved in a CSV and passed as a param in data which is attribute of Dash interface. Here it is sorted by the time and we will be working with the dates
 data = (
     pd.read_csv("avocado.csv")
     .assign(Date=lambda data: pd.to_datetime(data["Date"], format="%Y-%m-%d"))
     .sort_values(by="Date")
 )
+# We extract the datas and save them in variables
 regions = data["region"].sort_values().unique()
 avocado_types = data["type"].sort_values().unique()
 
+# extrernal_stylesheets is used to use external files like CSS or JS Files
+# rel:"stylesheet" will look for all stylesheet/ CSS files in the assets folder. For JS file you can use external_scripts.
 external_stylesheets = [
     {
         "href": (
@@ -41,6 +27,7 @@ external_stylesheets = [
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Avocado Analytics: Understand Your Avocados!"
 
+# It is based on React Framework. So we will be building components of application. 
 app.layout = html.Div(
     children=[
         html.Div(
@@ -134,6 +121,8 @@ app.layout = html.Div(
     ]
 )
 
+# This is Reactive Programming. Reactive Programming is a concept paradigm such that the website is always rendering based on the input.
+# In the below code snippet we designate what will be the input and what will be the output.
 @app.callback(
     Output("price-chart", "figure"),
     Output("volume-chart", "figure"),
@@ -142,6 +131,8 @@ app.layout = html.Div(
     Input("date-range", "start_date"),
     Input("date-range", "end_date"),
 )
+
+# Callback functons are created in which the values are taken from the user and sent to the Dash function where the figures are rendered.
 def update_charts(region, avocado_type, start_date, end_date):
     filtered_data = data.query(
         "region == @region and type == @avocado_type"
@@ -184,6 +175,8 @@ def update_charts(region, avocado_type, start_date, end_date):
         },
     }
     return price_chart_figure, volume_chart_figure
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
