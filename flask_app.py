@@ -25,6 +25,8 @@ external_stylesheets = [
     },
 ]
 app = Dash(__name__, external_stylesheets=external_stylesheets)
+
+
 app.title = "Avocado Analytics: Understand Your Avocados!"
 
 # It is based on React Framework. So we will be building components of application. 
