@@ -21,7 +21,7 @@ external_stylesheets = [
             "https://fonts.googleapis.com/css2?"
             "family=Lato:wght@400;700&display=swap"
         ),
-        "rel": "stylesheet",
+        "rel": "    ",
     },
 ]
 app = Dash(__name__, external_stylesheets=external_stylesheets)
